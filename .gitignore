@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+model.joblib
+data/sim_scans.csv
+.venv/
+.DS_Store
