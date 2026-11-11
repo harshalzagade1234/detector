@@ -20,7 +20,7 @@ def train_and_save():
         df = pd.DataFrame([sample_to_row(sim.scan(c)) for c in CLASSES for _ in range(150)]); source = "SIMULATED"
         os.makedirs("data", exist_ok=True); df.to_csv("data/sim_scans.csv", index=False)
 
-    X = np.array([feature_vector(row_to_sample(r)) for r in df.to_dict("records")]); y = df["label"].values
+    X = np.array([feature_vector(row_to_sample(r)) for r in df.to_dict("records")]); y = df["label"].to_numpy(dtype=str)
     models = {
         "LogReg+PCA": make_pipeline(StandardScaler(), PCA(n_components=0.99), LogisticRegression(max_iter=2000)),
         "SVM-RBF": make_pipeline(StandardScaler(), SVC(probability=True)),
