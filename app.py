@@ -9,9 +9,14 @@ st.title("🔬 Portable Optical Scanner - Residue Screening")
 st.caption("Screening aid only - not a replacement for lab-certified testing.")
 
 if not os.path.exists("model.joblib"):
-    import subprocess, sys
+    from train import train_and_save
     with st.spinner("First run: training demo model..."):
-        subprocess.run([sys.executable, "train.py"], check=True)
+        try:
+            train_and_save()
+        except Exception as e:
+            st.error("Training failed - details below.")
+            st.exception(e)
+            st.stop()
 bundle = joblib.load("model.joblib"); model = bundle["model"]; classes = list(model.classes_)
 if bundle["source"] == "SIMULATED":
     st.warning("Model trained on SIMULATED data - results are for demo only.")
